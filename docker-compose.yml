@@ -1,0 +1,36 @@
+version: '3.8'
+
+services:
+  pipeline:
+    build: .
+    container_name: transcription-pipeline
+    ports:
+      # Port pour accéder au Jupyter Notebook de l'extérieur du Docker
+      - "8888:8888"
+    volumes:
+      # On lie le dossier actuel Windows vers le dossier /app dans le conteneur Linux
+      # Ainsi, toute modification de code ou tout fichier généré sera visible sur Windows !
+      - .:/app
+      # Magie du cache : Le conteneur Linux viendra piocher directement dans ton disque dur
+      # et n'aura pas besoin de télécharger à nouveau Whisper large-v3 et Pyannote !
+      - C:/Users/pauta/.cache/huggingface:/root/.cache/huggingface
+      - C:/Users/pauta/.cache/torch:/root/.cache/torch
+    deploy:
+      resources:
+        reservations:
+          # C'EST LA MAGIE DE DOCKER + IA : on donne accès à la carte graphique
+          devices:
+            - driver: nvidia
+              count: all
+              capabilities: [gpu]
+    environment:
+      # Le pont magique pour Ollama. 
+      # "host.docker.internal" dit au conteneur de chercher le Ollama installé sur ton propre Windows
+      - OLLAMA_HOST=http://host.docker.internal:11434
+    
+    # Charger les variables d'environnement depuis le fichier .env local
+    env_file:
+      - .env
+    
+    # "ipc: host" aide souvent WhisperX / PyTorch s'ils ont besoin de partager beaucoup de mémoire VRAM
+    ipc: host

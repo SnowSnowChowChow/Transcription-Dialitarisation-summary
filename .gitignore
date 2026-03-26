@@ -1,0 +1,12 @@
+# Ignorer tous les fichiers de données et résultats
+archive/
+resultats/
+sources/
+
+# Ignorer les fichiers temporaires et sauvegardes
+*.bak
+__pycache__/
+.env
+
+
+!*.ipynb
