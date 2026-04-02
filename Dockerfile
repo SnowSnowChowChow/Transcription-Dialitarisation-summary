@@ -19,7 +19,10 @@ WORKDIR /app
 RUN pip install --no-cache-dir jupyterlab notebook
 
 # Installer WhisperX, Ollama, et autres dépendances du projet
-RUN pip install --no-cache-dir git+https://github.com/m-bain/whisperx.git ollama pydub av
+RUN pip install --no-cache-dir \
+    "networkx<3.4.1" \
+    git+https://github.com/m-bain/whisperx.git \
+    ollama pydub av
 
 # Exposer le port pour accéder à Jupyter depuis Windows
 EXPOSE 8888

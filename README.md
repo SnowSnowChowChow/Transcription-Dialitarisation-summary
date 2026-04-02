@@ -4,12 +4,21 @@ This project allows processing long-duration audio recordings (union meetings, A
 
 The whole pipeline is local to guarantee **data privacy**.
 
+## ✨ Key Features (v2.0)
+
+- **Native Subtitling**: Automatic generation of `.srt` files for all processed audio.
+- **Diarization Gap Protection**: Automatically identifies and fills "holes" in speaker detection (as `INCONNU`) to ensure zero text loss.
+- **Restricted Environment Support**: Built-in **PyAV Patch** to bypass `ffmpeg.exe` execution blocks (essential for restricted professional environments).
+- **Optimized VRAM Management**: Strict cleanup between steps allows running the full pipeline on consumer GPUs (e.g., RTX 2000 Ada with 16GB).
+- **Advanced Summarization**: Custom prompts for union/social dialogue context (detailed minutes vs synthetic summaries).
+
 ## 🛠️ Technologies Used
 
 - **Transcription & Alignment**: [WhisperX](https://github.com/m-bain/whisperx) (`large-v3` model)
 - **Diarization**: [Pyannote 3.1](https://huggingface.co/pyannote/speaker-diarization-3.1)
 - **AI Summary (LLM)**: [Qwen 3.5 9B](https://ollama.com/library/qwen2.5) via **Ollama**
 - **Infrastructure**: **Docker** with GPU support (NVIDIA CUDA)
+- **Audio Loading**: `PyAV` (Direct decoding)
 
 ## 🚀 Quick Start
 
@@ -44,7 +53,7 @@ Once started, access **Jupyter Lab** through the URL displayed in the terminal (
 ## 📁 Project Structure
 
 - `sources/` : Place your audio files (`.mp3`, `.m4a`, `.wav`, `.mp4`) here.
-- `resultats/` : Transcriptions, detailed minutes, and summaries will be generated here.
+- `resultats/` : Transcriptions (`.txt`), subtitles (`.srt`), and reports generated here.
 - `pipeline_transcription.ipynb` : The core of the project (Notebook to execute).
 - `Dockerfile` & `docker-compose.yml` : Linux/GPU virtual environment configuration.
 - `requirements.txt` : Python dependencies list.

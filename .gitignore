@@ -7,6 +7,13 @@ sources/
 *.bak
 __pycache__/
 .env
-
+.ipynb_checkpoints/
+*.txt
+!requirements.txt
+!README.md
+!PV_DETAIL_*.txt
+!RESUME_*.txt
+git_log.txt
+log.txt
 
 !*.ipynb
